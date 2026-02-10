@@ -4,14 +4,14 @@ This file provides guidance to agents when working with code in this repository.
 
 ## Repository Purpose
 
-This is **ak-skills-ops**: a multi-skill repository for **platform- and tool-specific operational skills**. This collection focuses on hosting platforms, deployment tools, infrastructure workflows, and provider-specific operations. Each skill is self-contained in its own directory under `skills/`.
+This is **ak-skills-core**: a multi-skill repository for **general-purpose, always-on skills** that are useful across projects and can typically be installed globally as a default toolbox. Each skill is self-contained in its own directory under `skills/`.
 
 ## Architecture
 
 ### Repository Structure
 
 ```
-ak-skills-ops/
+ak-skills-core/
 ├── AGENTS.md                    # Repo-level agent guidance (this file)
 ├── CLAUDE.md                    # Claude-specific overrides (keep minimal)
 ├── README.md                    # Repository index / public landing page
@@ -86,7 +86,7 @@ Format in each skill's `evals.json`:
 
 Search within a specific skill:
 ```bash
-rg -n "keyword" skills/seravo-dev/references/
+rg -n "keyword" skills/<skill-name>/references/
 ```
 
 Search across all skills:

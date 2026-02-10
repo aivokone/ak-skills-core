@@ -1,27 +1,22 @@
 # Skills Index
 
-Platform- and tool-specific operational skills using the open [skills standard](https://skills.sh/).
+General-purpose, always-on skills using the open [skills standard](https://skills.sh/).
 
-## seravo-dev
+These skills are intended to be broadly useful across projects and safe to keep
+installed globally as part of an agent's default toolbox.
 
-**Seravo-hosted WordPress Development**
+## agent-self-learning
 
-Expert guidance on Seravo's custom WP-CLI commands, Git-based deployments, local Docker/Vagrant setup, database synchronization, and Seravo-specific troubleshooting.
+**Agent Self-Learning (Flight Recorder)**
 
-**Features:**
-- Custom WP-CLI commands (wp-backup, wp-pull-production-db, etc.)
-- Git-based deployment workflows
-- Local development environment setup (Docker/Vagrant)
-- Database management and synchronization
-- Performance and security troubleshooting
-- Migration workflows
+Silently logs friction points (detours, retries, missing tools, assumptions, user questions, quality issues) to `.agent/learning-log.md` so you can improve workflows over time. The agent only mentions the log at task completion if any entries were created.
 
 **Installation:**
 ```bash
-npx skills add tkfin/ak-skills-ops --skill seravo-dev
+npx skills add <owner>/ak-skills-core --skill agent-self-learning
 ```
 
-[Katso skill →](seravo-dev/)
+[Katso skill →](agent-self-learning/)
 
 ---
 

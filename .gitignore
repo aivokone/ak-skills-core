@@ -3,3 +3,6 @@
 
 # Claude/Codex local agent settings (do not commit)
 .claude/settings.local.json
+
+# Agent flight recorder output (do not commit)
+.agent/

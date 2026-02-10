@@ -1,6 +1,6 @@
 {
-  "name": "ak-skills-ops",
+  "name": "ak-skills-core",
   "version": "1.0.0",
-  "description": "Platform- and tool-specific operational skills for Claude Code",
-  "skills": ["seravo-dev"]
+  "description": "General-purpose, always-on skills for agent environments",
+  "skills": ["agent-self-learning"]
 }

@@ -1,6 +1,9 @@
-# ak-skills-ops
+# ak-skills-core
 
-Platform- and tool-specific operational skills using the open [skills standard](https://skills.sh/).
+General-purpose, always-on skills using the open [skills standard](https://skills.sh/).
+
+This repo is for skills that are broadly useful across projects and tend to be
+installed globally in an agent environment (as a "default toolbox").
 
 This is a multi-skill repository: each skill is self-contained under `skills/<skill-name>/`.
 
@@ -10,7 +13,7 @@ See `skills/README.md` for the skills index.
 
 | Skill | Description |
 |-------|-------------|
-| [seravo-dev](skills/seravo-dev/) | Seravo-hosted WordPress ops: custom wp-* CLI, Git-based deploys, local Docker setup, DB sync |
+| [agent-self-learning](skills/agent-self-learning/) | Flight recorder for agent sessions: silently logs friction points to improve workflows |
 
 ## Install (skills.sh / npx skills)
 
@@ -22,7 +25,7 @@ npx skills add <owner>/<repo>
 npx skills add <owner>/<repo> --skill <skill-name>
 
 # Example (this repo)
-npx skills add tkfin/ak-skills-ops --skill seravo-dev
+npx skills add <owner>/ak-skills-core --skill agent-self-learning
 ```
 
 For full usage and installation details, see [skills.sh docs](https://skills.sh/docs).

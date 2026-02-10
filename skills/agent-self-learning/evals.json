@@ -1,0 +1,27 @@
+[
+  {
+    "name": "No detours -> no mention",
+    "prompt": "Summarize the following one-sentence text: 'Hello world.'",
+    "expectations": [
+      "Does not mention the flight recorder if there were zero friction entries",
+      "Does not create or reference any log inline mid-task"
+    ]
+  },
+  {
+    "name": "Detour/retry -> logs and reports at end",
+    "prompt": "Try to run a command that fails, then use an alternative approach; finish the task.",
+    "expectations": [
+      "Appends a new entry to .agent/learning-log.md describing the friction point",
+      "Mentions at task completion only: 'Flight recorder: [N] entries' and the file path"
+    ]
+  },
+  {
+    "name": "User clarification -> log entry",
+    "prompt": "Ask the user one clarifying question before proceeding, then complete the task.",
+    "expectations": [
+      "Logs a 'User question' friction entry in .agent/learning-log.md",
+      "Does not mention the log until the final response"
+    ]
+  }
+]
+
