@@ -18,14 +18,11 @@ See `skills/README.md` for the skills index.
 ## Install (skills.sh / npx skills)
 
 ```bash
-# Install all skills from a repo
-npx skills add <owner>/<repo>
+# Install all skills from this repo
+npx skills add aivokone/ak-skills-core
 
-# Install specific skill(s) from a multi-skill repo (see skills/README.md for names)
-npx skills add <owner>/<repo> --skill <skill-name>
-
-# Example (this repo)
-npx skills add <owner>/ak-skills-core --skill agent-self-learning
+# Install specific skill(s)
+npx skills add aivokone/ak-skills-core --skill agent-self-learning
 ```
 
 For full usage and installation details, see [skills.sh docs](https://skills.sh/docs).

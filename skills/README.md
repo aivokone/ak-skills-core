@@ -13,7 +13,7 @@ Silently logs friction points (detours, retries, missing tools, assumptions, use
 
 **Installation:**
 ```bash
-npx skills add <owner>/ak-skills-core --skill agent-self-learning
+npx skills add aivokone/ak-skills-core --skill agent-self-learning
 ```
 
 [Katso skill →](agent-self-learning/)
