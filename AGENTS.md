@@ -18,7 +18,6 @@ ak-skills-core/
 ├── .claude-plugin/
 │   └── plugin.json              # Plugin manifest
 └── skills/                      # All skills live here
-    ├── README.md                # Skills index
     └── <skill-name>/            # Each skill is self-contained
         ├── SKILL.md             # Skill entry point
         ├── README.md            # Skill documentation
@@ -38,7 +37,7 @@ Each skill follows this pattern:
 
 ### Current Skills
 
-Keep the skill list and per-skill descriptions in `skills/README.md` and the root `README.md`.
+Keep the skill list and per-skill descriptions in the root `README.md`.
 
 ## Working with This Repository
 
@@ -55,9 +54,8 @@ When modifying a skill's SKILL.md:
 2. Add `SKILL.md` with frontmatter (`name`, `description`)
 3. Add `evals.json` with test cases
 4. Add `references/` for detailed documentation
-5. Update `skills/README.md` (skills index)
-6. Update root `README.md` (top-level index)
-7. Update `.claude-plugin/plugin.json` (plugin manifest)
+5. Update root `README.md` (skills index)
+6. Update `.claude-plugin/plugin.json` (plugin manifest)
 
 ### Adding Reference Content
 

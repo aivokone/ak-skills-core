@@ -9,11 +9,11 @@ This is a multi-skill repository: each skill is self-contained under `skills/<sk
 
 ## Skills
 
-See `skills/README.md` for the skills index.
+The table below is the canonical skills index for this repository.
 
 | Skill | Description |
 |-------|-------------|
-| [agent-self-learning](skills/agent-self-learning/) | Flight recorder for agent sessions: silently logs friction points to improve workflows |
+| [agent-flight-recorder](skills/agent-flight-recorder/) | Agent flight recorder for sessions: silently logs friction points to improve workflows |
 
 ## Install (skills.sh / npx skills)
 
@@ -22,7 +22,7 @@ See `skills/README.md` for the skills index.
 npx skills add aivokone/ak-skills-core
 
 # Install specific skill(s)
-npx skills add aivokone/ak-skills-core --skill agent-self-learning
+npx skills add aivokone/ak-skills-core --skill agent-flight-recorder
 ```
 
 For full usage and installation details, see [skills.sh docs](https://skills.sh/docs).
@@ -32,8 +32,7 @@ For full usage and installation details, see [skills.sh docs](https://skills.sh/
 This repo follows a progressive disclosure pattern: keep `SKILL.md` lean and put detailed procedures under `references/`.
 
 When adding a new skill, update:
-- `skills/README.md` (skills index)
-- `README.md` (top-level index)
+- `README.md` (skills index)
 - `.claude-plugin/plugin.json` (plugin manifest)
 
 Contributor conventions live in `AGENTS.md`.

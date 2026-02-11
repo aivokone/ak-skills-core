@@ -1,4 +1,4 @@
-# agent-self-learning
+# agent-flight-recorder
 
 Flight recorder for agent work sessions.
 

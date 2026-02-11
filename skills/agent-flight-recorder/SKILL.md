@@ -1,5 +1,5 @@
 ---
-name: agent-self-learning
+name: agent-flight-recorder
 description: >
   Flight recorder for agent work sessions. Silently logs friction points —
   detours, unexpected installs, retries, user questions, quality issues — so
@@ -8,7 +8,7 @@ description: >
   and reports at task completion only if entries were created.
 ---
 
-# Agent Self-Learning — Flight Recorder
+# Agent Flight Recorder
 
 ## Purpose
 
