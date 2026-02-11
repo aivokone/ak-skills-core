@@ -21,7 +21,11 @@ The table below is the canonical skills index for this repository.
 # Install all skills from this repo
 npx skills add aivokone/ak-skills-core
 
-# Install specific skill(s)
+# Install specific skill(s) to project
+npx skills add aivokone/ak-skills-core --skill agent-flight-recorder
+```
+
+# Install specific skill(s) globally
 npx skills add aivokone/ak-skills-core --skill agent-flight-recorder
 ```
 
