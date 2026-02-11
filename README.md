@@ -26,7 +26,7 @@ npx skills add aivokone/ak-skills-core --skill agent-flight-recorder
 ```
 
 # Install specific skill(s) globally
-npx skills add aivokone/ak-skills-core --skill agent-flight-recorder
+npx skills add aivokone/ak-skills-core --skill agent-flight-recorder -g
 ```
 
 For full usage and installation details, see [skills.sh docs](https://skills.sh/docs).
