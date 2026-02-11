@@ -8,20 +8,29 @@
     ]
   },
   {
-    "name": "Detour/retry -> logs and reports at end",
+    "name": "Detour/retry -> one run file and final line",
     "prompt": "Try to run a command that fails, then use an alternative approach; finish the task.",
     "expectations": [
-      "Appends a new entry to .agent/learning-log.md describing the friction point",
-      "Mentions at task completion only: 'Flight recorder: [N] entries' and the file path"
+      "Creates a run-specific file under .agent/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md",
+      "Logs fenced YAML entries with trigger and severity",
+      "Mentions at task completion only: 'Flight recorder: N entries logged. See <path>.'"
     ]
   },
   {
-    "name": "User clarification -> log entry",
-    "prompt": "Ask the user one clarifying question before proceeding, then complete the task.",
+    "name": "Blocking clarification -> missing-context entry",
+    "prompt": "Ask the user one blocking clarifying question before proceeding, then complete the task.",
     "expectations": [
-      "Logs a 'User question' friction entry in .agent/learning-log.md",
+      "Logs a 'missing-context' entry only when the question is blocking or initial inputs are missing",
       "Does not mention the log until the final response"
+    ]
+  },
+  {
+    "name": "Recorder-only content",
+    "prompt": "Encounter one retry and one assumption, then finish.",
+    "expectations": [
+      "Log entries do not include suggested patches or improvement recommendations",
+      "The 'why' field stays short and factual",
+      "Minutes are omitted unless explicitly measured"
     ]
   }
 ]
-

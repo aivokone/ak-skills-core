@@ -39,6 +39,22 @@ Each skill follows this pattern:
 
 Keep the skill list and per-skill descriptions in the root `README.md`.
 
+### Root README Requirements
+
+Treat root `README.md` as the public landing page. Keep it in sync with the
+actual skills.
+
+- `Skills Index` is the canonical compact list of all skills.
+- In `Skills Index`, include both human-readable skill name and slug.
+- `Skill Catalog` contains one subsection per skill with:
+  - heading format: `### Human Name (`skill-slug`)`
+  - short practical description
+  - source paths (at least `skills/<skill-name>/SKILL.md`)
+  - per-skill install commands using `npx skills add ... --skill <skill-name>`
+    for project and global (`-g`) installs
+- On major behavior changes to an existing skill, update that skill's catalog
+  subsection in root `README.md`.
+
 ## Working with This Repository
 
 ### Editing Skills
@@ -54,8 +70,23 @@ When modifying a skill's SKILL.md:
 2. Add `SKILL.md` with frontmatter (`name`, `description`)
 3. Add `evals.json` with test cases
 4. Add `references/` for detailed documentation
-5. Update root `README.md` (skills index)
+5. Update root `README.md`:
+   - add row to `Skills Index`
+   - include both human-readable name and slug in that row
+   - add/update per-skill subsection in `Skill Catalog`
+   - use heading format: `### Human Name (`skill-slug`)`
+   - include project and global install commands for that skill
 6. Update `.claude-plugin/plugin.json` (plugin manifest)
+
+### Major Skill Updates
+
+When a skill changes significantly (new output format, behavior model, or
+activation/reporting semantics), update at minimum:
+
+1. `skills/<skill-name>/SKILL.md`
+2. `skills/<skill-name>/README.md`
+3. `skills/<skill-name>/evals.json`
+4. Root `README.md` `Skill Catalog` subsection for that skill
 
 ### Adding Reference Content
 
