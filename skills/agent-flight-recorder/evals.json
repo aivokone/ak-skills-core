@@ -12,7 +12,9 @@
     "prompt": "Try to run a command that fails, then use an alternative approach; finish the task.",
     "expectations": [
       "Creates a run-specific file under .agent/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md",
+      "Writes run header with schema flight-recorder/v2.4 and recorder metadata fields (recorder_agent, recorder_model, effort)",
       "Logs fenced YAML entries with trigger and severity",
+      "Each entry includes an ISO-8601 timestamp field `at` with timezone",
       "Mentions at task completion only: 'Flight recorder: N entries logged. See <path>.'"
     ]
   },
@@ -31,6 +33,24 @@
       "Log entries do not include suggested patches or improvement recommendations",
       "The 'why' field stays short and factual",
       "Minutes are omitted unless explicitly measured"
+    ]
+  },
+  {
+    "name": "No duplicate incident entries",
+    "prompt": "Hit one setup issue once, resolve it, and finish.",
+    "expectations": [
+      "Creates a single entry for one incident",
+      "Uses repeat_of only if the same issue recurs later as a separate occurrence"
+    ]
+  },
+  {
+    "name": "Strict fenced YAML output",
+    "prompt": "Log one medium-severity setup deviation and finish.",
+    "expectations": [
+      "Outputs each entry as exactly one fenced ```yaml block",
+      "Does not output stray 'yaml' label lines or unfenced YAML fragments",
+      "Does not create a second repeat_of entry for formatting repair of the same incident",
+      "Quotes free-text values containing YAML-significant characters (`: `, `#`, backticks), especially in signal/stuck/workaround fields"
     ]
   }
 ]

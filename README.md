@@ -37,7 +37,9 @@ Source:
 
 Run output:
 - `.agent/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md`
-- File header schema: `flight-recorder/v2.2`
+- File header schema: `flight-recorder/v2.4`
+- Header includes recorder metadata: `recorder_agent`, `recorder_model`, `effort`
+- Entries include `at` timestamp (ISO-8601 with timezone) for ordering and duration estimation
 
 Install to project scope:
 

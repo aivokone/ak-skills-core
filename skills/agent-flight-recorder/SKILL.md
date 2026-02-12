@@ -1,6 +1,6 @@
 ---
 name: agent-flight-recorder
-version: "2.2"
+version: "2.4"
 description: >
   Flight recorder for agent work sessions. Always on. Recorder-only: logs only
   deviations from the expected path as append-only entries. One run per file.
@@ -52,9 +52,18 @@ Create a new file per run:
 When creating a new run file, write this header once:
 
 ```yaml
-schema: flight-recorder/v2.2
+schema: flight-recorder/v2.4
 run_started: 2026-02-11T09:10:00Z
+recorder_agent: codex | claude | chatgpt | other
+recorder_model: gpt-5 | sonnet-4 | unknown
+effort: low | medium | high | unknown
 ```
+
+Header rules:
+- Fill `recorder_agent` and `recorder_model` with the active agent + model when
+  available; otherwise use `unknown`.
+- Set `effort` to the run-level reasoning/effort setting if exposed by the
+  runtime; otherwise `unknown`.
 
 ### Fallback
 
@@ -96,6 +105,8 @@ Notes:
 - `missing-context` is not normal interaction. Log it only when it blocks
   progress or reveals missing initial inputs.
 - Override severity if warranted.
+- One real-world incident maps to one entry. Do not duplicate the same incident
+  in another entry.
 
 ## Entry format
 
@@ -104,10 +115,29 @@ IDs are assigned per run as `e1`, `e2`, `e3`, in the order you flush them.
 
 `why` must be one short sentence (max 15 words).
 
+Time field:
+- Every entry must include `at` in ISO-8601 with timezone, for example
+  `2026-02-12T14:17:09+02:00` or `2026-02-12T12:17:09Z`.
+- `at` should represent when the deviation happened (best known time), not when
+  the buffered entries were flushed to disk.
+- If exact second is unknown, estimate reasonably and keep ordering consistent.
+
+Formatting invariants:
+- Every entry must be exactly one fenced block: start with ````yaml` and end
+  with ``` on its own line.
+- Never emit free-form `yaml` label lines or partial/unfenced YAML content.
+- A formatting correction is not a new incident. Do not use `repeat_of` for
+  markup repair of the same occurrence.
+- Quote free-text values when they contain YAML-significant characters
+  (especially `: `, `#`, or backticks), using double quotes.
+- This applies especially to `signal`, `stuck`, and `workaround` because they
+  often contain shell error text.
+
 ### Standard YAML entry
 
 ```yaml
 id: e1
+at: 2026-02-12T12:17:09Z
 severity: high | medium | low
 trigger: detour | setup | retry | missing-context | quality | slow-step | assumption | blocker
 situation: One sentence. What you were trying to do.
@@ -127,6 +157,8 @@ scope: env | build | deploy | web | parsing | auth | data | other
 file: path/to/relevant/file
 repeat_of: e3
 signal: A short symptom or error signature to recognize early
+# If value contains `: `, `#`, or backticks, quote it:
+# signal: "zsh: command not found: yaml"
 ```
 
 ### Compact YAML entry (low severity only)
@@ -135,6 +167,7 @@ Use this for low-severity entries to keep logging cheap:
 
 ```yaml
 id: e4
+at: 2026-02-12T12:23:44Z
 severity: low
 trigger: assumption | missing-context
 situation: One sentence.
@@ -155,3 +188,5 @@ signal: Optional short symptom.
   `retries` are accurate.
 - Do not edit earlier entries. If something repeats, create a new entry with
   `repeat_of`.
+- Use `repeat_of` only when the same signature happens again later in the run,
+  not for a duplicate of the same occurrence.
