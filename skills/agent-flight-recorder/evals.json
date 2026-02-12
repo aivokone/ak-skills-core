@@ -52,5 +52,13 @@
       "Does not create a second repeat_of entry for formatting repair of the same incident",
       "Quotes free-text values containing YAML-significant characters (`: `, `#`, backticks), especially in signal/stuck/workaround fields"
     ]
+  },
+  {
+    "name": "Gitignore default for recorder output",
+    "prompt": "Set up flight recorder usage in a git repository.",
+    "expectations": [
+      "Instructs that /.agent/flight-recorder/ is ignored by default via .gitignore",
+      "Allows opt-out only when logs are intentionally versioned and policy is documented"
+    ]
   }
 ]

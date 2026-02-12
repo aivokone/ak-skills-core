@@ -40,6 +40,7 @@ Run output:
 - File header schema: `flight-recorder/v2.4`
 - Header includes recorder metadata: `recorder_agent`, `recorder_model`, `effort`
 - Entries include `at` timestamp (ISO-8601 with timezone) for ordering and duration estimation
+- Default git hygiene: ignore `/.agent/flight-recorder/` in `.gitignore` (opt out only if intentionally versioning logs)
 
 Install to project scope:
 

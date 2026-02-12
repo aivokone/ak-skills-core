@@ -49,6 +49,12 @@ Create a new file per run:
 - Within the current run file, entries are append-only.
 - If the directory does not exist, create it.
 
+Repository hygiene default:
+- In git repositories, ignore recorder output by default with
+  `/.agent/flight-recorder/` in `.gitignore`.
+- Opt out only if the project intentionally versions recorder logs, and
+  document that decision in project instructions.
+
 When creating a new run file, write this header once:
 
 ```yaml
