@@ -37,8 +37,9 @@ Source:
 
 Run output:
 - `.agent/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md`
-- File header schema: `flight-recorder/v2.4`
-- Header includes recorder metadata: `recorder_agent`, `recorder_model`, `effort`
+- File header schema: `flight-recorder/v2.5`
+- Header includes recorder metadata: `recorder_agent` (product name), `recorder_model` (exact model ID), optional `recorder_effort` and `task`
+- Run footer with `entries`, `high_severity`, `outcome` for quick scanning
 - Entries include `at` timestamp (ISO-8601 with timezone) for ordering and duration estimation
 - Default git hygiene: ignore `/.agent/flight-recorder/` in `.gitignore` (opt out only if intentionally versioning logs)
 

@@ -1,6 +1,6 @@
 ---
 name: agent-flight-recorder
-version: "2.4"
+version: "2.5"
 description: >
   Flight recorder for agent work sessions. Always on. Recorder-only: logs only
   deviations from the expected path as append-only entries. One run per file.
@@ -58,18 +58,26 @@ Repository hygiene default:
 When creating a new run file, write this header once:
 
 ```yaml
-schema: flight-recorder/v2.4
+schema: flight-recorder/v2.5
 run_started: 2026-02-11T09:10:00Z
-recorder_agent: codex | claude | chatgpt | other
-recorder_model: gpt-5 | sonnet-4 | unknown
-effort: low | medium | high | unknown
+task: "Implement auth middleware"   # optional, one-liner describing the task
+recorder_agent: claude-code         # agent product or CLI name
+recorder_model: claude-opus-4-6     # exact model ID as reported by runtime
+recorder_effort: high                        # optional, omit if runtime does not expose
 ```
 
 Header rules:
-- Fill `recorder_agent` and `recorder_model` with the active agent + model when
-  available; otherwise use `unknown`.
-- Set `effort` to the run-level reasoning/effort setting if exposed by the
-  runtime; otherwise `unknown`.
+- `recorder_agent`: the agent product or CLI that is running (e.g.
+  `claude-code`, `codex-cli`, `chatgpt`, `cursor`, `aider`). Use the canonical
+  short name, not a marketing name. Use `unknown` only if not determinable.
+- `recorder_model`: the exact model identifier as reported by the runtime (e.g.
+  `claude-opus-4-6`, `gpt-4o-2025-06-01`, `o3`). Prefer the full model ID over
+  a friendly name. Use `unknown` only if not exposed.
+- `recorder_effort` is optional. If the runtime exposes a reasoning effort or
+  compute budget setting, report its value verbatim. Omit the field entirely if
+  the runtime has no such concept.
+- `task` is optional. If set, use one short sentence describing the user-facing
+  goal of the run. Omit if the task is unclear at run start.
 
 ### Fallback
 
@@ -79,6 +87,25 @@ final response under:
 `## Flight recorder log (inline)`
 
 Also state in one sentence that file write failed.
+
+## Run footer
+
+When the run ends (task completion or abort), append a footer block after the
+last entry:
+
+```yaml
+run_ended: 2026-02-11T09:45:00Z
+entries: 4
+high_severity: 1
+outcome: completed | aborted | interrupted
+```
+
+Footer rules:
+- Write the footer in the same final flush that writes any remaining entries.
+- `outcome` is `completed` when the task finishes normally, `aborted` when the
+  agent gives up, and `interrupted` when the session ends unexpectedly (best
+  effort).
+- If there are zero entries, do not create a run file and therefore no footer.
 
 ## Write strategy (batch by default)
 
@@ -159,7 +186,7 @@ time_basis: timestamped | command_duration | explicit_user | other  # required i
 retries: 2               # optional integer
 
 # Optional routing/context
-scope: env | build | deploy | web | parsing | auth | data | other
+scope: env | build | deploy | web | parsing | auth | data | test | config | deps | perf | other
 file: path/to/relevant/file
 repeat_of: e3
 signal: A short symptom or error signature to recognize early
@@ -169,7 +196,9 @@ signal: A short symptom or error signature to recognize early
 
 ### Compact YAML entry (low severity only)
 
-Use this for low-severity entries to keep logging cheap:
+Use this for low-severity entries to keep logging cheap.
+Do not use compact format for medium or high severity entries; always use the
+standard format for those.
 
 ```yaml
 id: e4

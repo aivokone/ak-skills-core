@@ -12,9 +12,10 @@
     "prompt": "Try to run a command that fails, then use an alternative approach; finish the task.",
     "expectations": [
       "Creates a run-specific file under .agent/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md",
-      "Writes run header with schema flight-recorder/v2.4 and recorder metadata fields (recorder_agent, recorder_model, effort)",
+      "Writes run header with schema flight-recorder/v2.5 and recorder metadata (recorder_agent as product name, recorder_model as exact model ID, optional recorder_effort)",
       "Logs fenced YAML entries with trigger and severity",
       "Each entry includes an ISO-8601 timestamp field `at` with timezone",
+      "Run file ends with a footer block (run_ended, entries, high_severity, outcome)",
       "Mentions at task completion only: 'Flight recorder: N entries logged. See <path>.'"
     ]
   },
@@ -59,6 +60,34 @@
     "expectations": [
       "Instructs that /.agent/flight-recorder/ is ignored by default via .gitignore",
       "Allows opt-out only when logs are intentionally versioned and policy is documented"
+    ]
+  },
+  {
+    "name": "High severity triggers immediate flush",
+    "prompt": "Set up a Python project with Poetry. The pyproject.toml has a critical syntax error that blocks all progress.",
+    "expectations": [
+      "Flushes the high-severity entry to disk immediately, not deferred to task end",
+      "Entry has severity: high",
+      "Entry uses an appropriate trigger (blocker or detour)"
+    ]
+  },
+  {
+    "name": "Batch flush before blocking question",
+    "prompt": "Set up a Node.js project, encounter a missing config file, accumulate a deviation entry, then ask the user which config preset to use.",
+    "expectations": [
+      "Accumulated entries are flushed to disk before asking the blocking question",
+      "Does not lose buffered entries if context is interrupted",
+      "Logs a missing-context entry for the blocking clarification"
+    ]
+  },
+  {
+    "name": "Run footer written at completion",
+    "prompt": "Encounter two deviations (one medium, one high severity), resolve both, and complete the task.",
+    "expectations": [
+      "Run file ends with a footer block containing run_ended, entries, high_severity, and outcome",
+      "entries count matches the actual number of logged entries",
+      "high_severity count matches the actual number of high-severity entries",
+      "outcome is 'completed' for a normally finished task"
     ]
   }
 ]
