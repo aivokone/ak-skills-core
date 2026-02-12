@@ -1,103 +1,31 @@
 # AGENTS.md
 
-This file provides guidance to agents when working with code in this repository.
+Repository-specific guidance for agents working in `ak-skills-core`.
 
-## Repository Purpose
+## Scope And Precedence
 
-This is **ak-skills-core**: a multi-skill repository for **general-purpose, always-on skills** that are useful across projects and can typically be installed globally as a default toolbox. Each skill is self-contained in its own directory under `skills/`.
+- This file defines repo-local policy only.
+- For generic skill-authoring workflow, use `skill-creator` guidance (for example `.agents/skills/skill-creator/SKILL.md`).
+- If any generic guidance conflicts with this file, `AGENTS.md` wins in this repository.
 
-## Architecture
+## Repository Model
 
-### Repository Structure
+- This is a multi-skill repository: each skill lives in `skills/<skill-name>/`.
+- Keep each `SKILL.md` lean and use `references/` for detailed procedures.
+- Use searchable keywords in references so `rg` can find the right section quickly.
+- Keep `CLAUDE.md` minimal and scoped to Claude-only overrides.
 
-```
-ak-skills-core/
-├── AGENTS.md                    # Repo-level agent guidance (this file)
-├── CLAUDE.md                    # Claude-specific overrides (keep minimal)
-├── README.md                    # Repository index / public landing page
-├── .claude-plugin/
-│   └── plugin.json              # Plugin manifest
-└── skills/                      # All skills live here
-    └── <skill-name>/            # Each skill is self-contained
-        ├── SKILL.md             # Skill entry point
-        ├── README.md            # Skill documentation
-        ├── evals.json           # Per-skill evaluations
-        └── references/          # Skill-specific references
-```
+## Per-Skill File Contract
 
-**Progressive Disclosure Pattern**: Each skill's SKILL.md is intentionally lean (under 500 lines) and references external files. This reduces context usage - load only the specific section needed for a task rather than the entire guide.
+Each skill should include:
 
-### Skill Structure Convention
+- `skills/<skill-name>/SKILL.md` with frontmatter (`name`, `description`)
+- `skills/<skill-name>/evals.json`
+- `skills/<skill-name>/README.md` (repo policy: required here)
+- `skills/<skill-name>/references/` when additional detail is needed
 
-Each skill follows this pattern:
-- `SKILL.md` - Skill definition with frontmatter (`name`, `description`) and core guidance
-- `evals.json` - Evaluation test cases with prompts and expected outcomes
-- `references/` - Detailed procedures and topic-specific documentation
-- `README.md` - Skill-specific documentation and usage guide
+`evals.json` case format:
 
-### Current Skills
-
-Keep the skill list and per-skill descriptions in the root `README.md`.
-
-### Root README Requirements
-
-Treat root `README.md` as the public landing page. Keep it in sync with the
-actual skills.
-
-- `Skills Index` is the canonical compact list of all skills.
-- In `Skills Index`, include both human-readable skill name and slug.
-- `Skill Catalog` contains one subsection per skill with:
-  - heading format: `### Human Name (`skill-slug`)`
-  - short practical description
-  - source paths (at least `skills/<skill-name>/SKILL.md`)
-  - per-skill install commands using `npx skills add ... --skill <skill-name>`
-    for project and global (`-g`) installs
-- On major behavior changes to an existing skill, update that skill's catalog
-  subsection in root `README.md`.
-
-## Working with This Repository
-
-### Editing Skills
-
-When modifying a skill's SKILL.md:
-- Keep the main file lean - move detailed procedures to `references/` subdirectories
-- Preserve the frontmatter format (`---` delimiters with `name` and `description`)
-- Use searchable keywords in references so `rg` searches find relevant content
-
-### Adding a New Skill
-
-1. Create `skills/<skill-name>/` directory
-2. Add `SKILL.md` with frontmatter (`name`, `description`)
-3. Add `evals.json` with test cases
-4. Add `references/` for detailed documentation
-5. Update root `README.md`:
-   - add row to `Skills Index`
-   - include both human-readable name and slug in that row
-   - add/update per-skill subsection in `Skill Catalog`
-   - use heading format: `### Human Name (`skill-slug`)`
-   - include project and global install commands for that skill
-6. Update `.claude-plugin/plugin.json` (plugin manifest)
-
-### Major Skill Updates
-
-When a skill changes significantly (new output format, behavior model, or
-activation/reporting semantics), update at minimum:
-
-1. `skills/<skill-name>/SKILL.md`
-2. `skills/<skill-name>/README.md`
-3. `skills/<skill-name>/evals.json`
-4. Root `README.md` `Skill Catalog` subsection for that skill
-
-### Adding Reference Content
-
-Within a skill:
-- Create numbered or topic-named markdown files in `references/`
-- Create index files when you have many sections
-- Use clear file naming for easy discovery
-
-### Evaluation Cases
-
-Format in each skill's `evals.json`:
 ```json
 {
   "name": "Test case name",
@@ -106,21 +34,49 @@ Format in each skill's `evals.json`:
 }
 ```
 
+## Root README Contract
+
+Treat root `README.md` as the public landing page and keep it synchronized with actual skills.
+
+- `Skills Index` is the canonical compact list of all skills.
+- In `Skills Index`, include both human-readable name and slug.
+- `Skill Catalog` must include one section per skill with heading format:
+  - `### Human Name (`skill-slug`)`
+- Each skill section must include:
+  - short practical description
+  - source paths (at least `skills/<skill-name>/SKILL.md`)
+  - project install command: `npx skills add ... --skill <skill-name>`
+  - global install command: `npx skills add ... --skill <skill-name> -g`
+
+## Change Checklists
+
+### Adding A New Skill
+
+1. Create `skills/<skill-name>/`.
+2. Add `SKILL.md`, `evals.json`, and `README.md`.
+3. Add `references/` content as needed.
+4. Update root `README.md` (`Skills Index` and `Skill Catalog`).
+5. Update `.claude-plugin/plugin.json`.
+
+### Major Skill Update
+
+When behavior changes materially (output format, behavior model, activation/reporting semantics), update at minimum:
+
+1. `skills/<skill-name>/SKILL.md`
+2. `skills/<skill-name>/README.md`
+3. `skills/<skill-name>/evals.json`
+4. The matching `Skill Catalog` subsection in root `README.md`
+
 ## Public Repo Hygiene
 
-- Do not add secrets (API keys, credentials, private hostnames, customer data) to skills or references.
-- Prefer placeholders in examples (`example.com`, `USER`, `PROJECT_ID`) unless the target is explicitly public.
+- Do not commit secrets (API keys, credentials, private hostnames, customer data).
+- Use placeholders like `example.com`, `USER`, and `PROJECT_ID` unless the target is explicitly public.
 
 ## Search Patterns
 
-Search within a specific skill:
 ```bash
 rg -n "keyword" skills/<skill-name>/references/
-```
-
-Search across all skills:
-```bash
 rg -n "keyword" skills/*/references/
 ```
 
-Then open only the matching section file rather than loading everything.
+Open only matching files instead of loading all references.
