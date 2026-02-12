@@ -30,6 +30,13 @@ Always active. You do not need to be asked.
 
 - If zero entries, say nothing.
 
+## Project-level visibility (optional)
+
+If a project wants explicit policy text, add a short note to that project's
+agent instruction file (for example `AGENTS.md` or `CLAUDE.md`) stating that
+`agent-flight-recorder` is always-on for multi-step work and that only
+deviations are logged.
+
 ## Run log file (one run per file)
 
 Create a new file per run:

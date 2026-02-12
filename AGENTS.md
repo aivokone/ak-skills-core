@@ -21,8 +21,9 @@ Each skill should include:
 
 - `skills/<skill-name>/SKILL.md` with frontmatter (`name`, `description`)
 - `skills/<skill-name>/evals.json`
-- `skills/<skill-name>/README.md` (repo policy: required here)
 - `skills/<skill-name>/references/` when additional detail is needed
+- Do not add `skills/<skill-name>/README.md`; keep essential behavior in `SKILL.md`
+  and user-facing catalog details in root `README.md`.
 
 `evals.json` case format:
 
@@ -53,7 +54,7 @@ Treat root `README.md` as the public landing page and keep it synchronized with 
 ### Adding A New Skill
 
 1. Create `skills/<skill-name>/`.
-2. Add `SKILL.md`, `evals.json`, and `README.md`.
+2. Add `SKILL.md` and `evals.json`.
 3. Add `references/` content as needed.
 4. Update root `README.md` (`Skills Index` and `Skill Catalog`).
 5. Update `.claude-plugin/plugin.json`.
@@ -63,9 +64,8 @@ Treat root `README.md` as the public landing page and keep it synchronized with 
 When behavior changes materially (output format, behavior model, activation/reporting semantics), update at minimum:
 
 1. `skills/<skill-name>/SKILL.md`
-2. `skills/<skill-name>/README.md`
-3. `skills/<skill-name>/evals.json`
-4. The matching `Skill Catalog` subsection in root `README.md`
+2. `skills/<skill-name>/evals.json`
+3. The matching `Skill Catalog` subsection in root `README.md`
 
 ## Public Repo Hygiene
 
