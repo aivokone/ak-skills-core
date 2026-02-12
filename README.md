@@ -36,12 +36,12 @@ Source:
 - `skills/agent-flight-recorder/SKILL.md`
 
 Run output:
-- `.agent/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md`
+- `.agents/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md`
 - File header schema: `flight-recorder/v2.5`
 - Header includes recorder metadata: `recorder_agent` (product name), `recorder_model` (exact model ID), optional `recorder_effort` and `task`
 - Run footer with `entries`, `high_severity`, `outcome` for quick scanning
 - Entries include `at` timestamp (ISO-8601 with timezone) for ordering and duration estimation
-- Default git hygiene: ignore `/.agent/flight-recorder/` in `.gitignore` (opt out only if intentionally versioning logs)
+- Default git hygiene: ignore `/.agents/flight-recorder/` in `.gitignore` (opt out only if intentionally versioning logs)
 
 Install to project scope:
 
@@ -65,7 +65,7 @@ similar).
 ### Flight Recorder (`agent-flight-recorder`)
 
 - For long or multi-step tasks, use the `agent-flight-recorder` skill when available.
-- If the skill is unavailable, manually write one run file under `.agent/flight-recorder/`.
+- If the skill is unavailable, manually write one run file under `.agents/flight-recorder/`.
 - Log only deviations: retries, detours, missing tools, blocking missing context, assumptions, and quality rework.
 - Do not mention the log mid-task.
 - At task completion, if entries were created, include: `Flight recorder: N entries logged. See <path>.`

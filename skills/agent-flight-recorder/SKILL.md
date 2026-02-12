@@ -41,7 +41,7 @@ deviations are logged.
 
 Create a new file per run:
 
-`<project-root>/.agent/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md`
+`<project-root>/.agents/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md`
 
 - Use local time if known, otherwise UTC and write `UTC` as TZ.
 - If a name collision occurs, append `-1`, `-2`, ... until unique.
@@ -51,7 +51,7 @@ Create a new file per run:
 
 Repository hygiene default:
 - In git repositories, ignore recorder output by default with
-  `/.agent/flight-recorder/` in `.gitignore`.
+  `/.agents/flight-recorder/` in `.gitignore`.
 - Opt out only if the project intentionally versions recorder logs, and
   document that decision in project instructions.
 

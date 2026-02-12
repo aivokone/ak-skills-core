@@ -5,7 +5,7 @@
 .claude/settings.local.json
 
 # Agent flight recorder output (do not commit)
-/.agent/flight-recorder/
+/.agents/flight-recorder/
 
 # Agent local runtime state (do not commit)
 .agent/

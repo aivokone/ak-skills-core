@@ -11,7 +11,7 @@
     "name": "Detour/retry -> one run file and final line",
     "prompt": "Try to run a command that fails, then use an alternative approach; finish the task.",
     "expectations": [
-      "Creates a run-specific file under .agent/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md",
+      "Creates a run-specific file under .agents/flight-recorder/flight-YYYY-MM-DD-HHMMSS-TZ.md",
       "Writes run header with schema flight-recorder/v2.5 and recorder metadata (recorder_agent as product name, recorder_model as exact model ID, optional recorder_effort)",
       "Logs fenced YAML entries with trigger and severity",
       "Each entry includes an ISO-8601 timestamp field `at` with timezone",
@@ -58,7 +58,7 @@
     "name": "Gitignore default for recorder output",
     "prompt": "Set up flight recorder usage in a git repository.",
     "expectations": [
-      "Instructs that /.agent/flight-recorder/ is ignored by default via .gitignore",
+      "Instructs that /.agents/flight-recorder/ is ignored by default via .gitignore",
       "Allows opt-out only when logs are intentionally versioned and policy is documented"
     ]
   },
