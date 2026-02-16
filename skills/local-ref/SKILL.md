@@ -87,7 +87,7 @@ The `init` command adds a `## Local Reference Documentation` section to AGENTS.m
 - **Project-specific over generic** — don't dump raw API output. Tailor examples to the project's actual code, file structure, and patterns.
 - **Cross-reference project files** — mention where patterns are used (e.g., "see `lib/assets.php` for implementation").
 - **One file per topic** — keep docs modular. Don't create one giant reference file.
-- **100-200 lines per file** — large enough to be useful, small enough to `Read` without waste.
+- **100-200 lines per file** — see target in `init` command above.
 
 ## File Naming Convention
 

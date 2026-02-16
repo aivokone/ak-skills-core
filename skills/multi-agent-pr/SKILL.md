@@ -144,8 +144,6 @@ Three sources:
 .claude/skills/multi-agent-pr/scripts/reply-to-inline.sh <COMMENT_ID> "Fixed @ abc123. [details] —[Your Agent Name]"
 ```
 
-**Always end inline replies with agent signature** (e.g., `—Claude Sonnet 4.5`, `—GPT-4`, `—Custom Agent`) to distinguish from human responses in GitHub UI.
-
 ## Fix Reporting
 
 After addressing feedback, post ONE conversation comment:
