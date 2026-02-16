@@ -137,12 +137,13 @@ Three sources:
 ### Responding to Inline Bot Comments
 
 1. **Address the feedback** in code
-2. **Include in Fix Report** (conversation comment)
-3. **Optionally reply inline** (sign with agent identity):
+2. **Reply inline** to each comment (sign with agent identity):
 
 ```bash
 .claude/skills/multi-agent-pr/scripts/reply-to-inline.sh <COMMENT_ID> "Fixed @ abc123. [details] —[Your Agent Name]"
 ```
+
+3. **Include in Fix Report** (conversation comment) — the Fix Report summarizes all changes, but inline replies ensure each bot comment gets a direct acknowledgment
 
 ## Fix Reporting
 
