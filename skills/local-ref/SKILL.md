@@ -31,10 +31,13 @@ Set up local documentation cache for a project.
 
 2. **Confirm with user** which technologies to cache. Suggest the top 3-5 most relevant. Skip generic/obvious ones (e.g., don't cache "JavaScript" docs for a JS project).
 
-3. **For each technology**, fetch documentation using the best available source (see Sources above).
+3. **For each technology:**
+   a. Scan project code to identify which APIs/patterns are actually used
+   b. Fetch documentation from best available source (see Sources above)
+   c. Filter fetched content to patterns relevant to this project
 
 4. **Write project-specific docs** to `docs/reference/<topic>.md`:
-   - Start each file with: `# <Topic> — Project Reference` and a source note
+   - Start each file with the standard header (see File Header Format below)
    - Include only patterns relevant to this project's actual code
    - Cross-reference actual project files when possible (e.g., "Used in `lib/acf.php`")
    - Target 100-200 lines per file — enough to be useful, small enough to read quickly
@@ -54,16 +57,18 @@ Set up local documentation cache for a project.
 Refresh existing local docs.
 
 1. Read `docs/reference/` to find existing doc files
-2. For each file, re-fetch from the original source
-3. Merge new content while preserving project-specific annotations
-4. Report what changed
+2. For each file, parse the `<!-- source: ... -->` header to determine the original source, library ID, and query
+3. Re-fetch using the parsed source parameters
+4. Merge new content while preserving project-specific annotations and cross-references
+5. Update the `<!-- cached: ... -->` date
+6. Report what changed
 
 ### Lookup — `local-ref lookup <topic>`
 
 Find documentation, local-first.
 
 1. Check `docs/reference/` for a matching file (grep for topic keywords)
-2. If found, read and use local file (done)
+2. If found, read the local file and quote/apply the relevant sections to the current task
 3. If not found, fetch from external source, then ask user if the result should be saved locally
 
 ### Save — `local-ref save` (opportunistic, mid-project)
@@ -71,7 +76,7 @@ Find documentation, local-first.
 When working on a project and you fetch documentation from an external source (Context7, WebFetch, etc.) that would be useful across sessions:
 
 1. After using the fetched docs to complete the current task, offer: "This documentation could be useful in future sessions. Save to `docs/reference/`?"
-2. If user agrees, write a project-specific version (not raw dump) to `docs/reference/<topic>.md`
+2. If user agrees, write a project-specific version (not raw dump) to `docs/reference/<topic>.md` with the standard header (see File Header Format)
 3. Add the new file to the AGENTS.md `## Local Reference Documentation` bullet list so future sessions discover it
 4. Continue with the original task
 
@@ -80,6 +85,45 @@ This keeps docs growing organically as the project evolves, without requiring ex
 ## Passive Behavior (via AGENTS.md)
 
 The `init` command adds a `## Local Reference Documentation` section to AGENTS.md. This section loads every session (~80 tokens) and tells Claude to check `docs/reference/` before external lookups. This passive guidance works without loading the skill itself.
+
+## File Header Format
+
+Every cached doc file MUST start with this machine-readable header. The `update` command depends on it.
+
+```markdown
+# Vite Asset Pipeline — Project Reference
+<!-- source: context7 | libraryId: /vitejs/vite | query: build manifest plugin configuration -->
+<!-- cached: 2026-02-16 -->
+
+Content here...
+```
+
+Header fields:
+
+| Field | Required | Values |
+|-------|----------|--------|
+| `source` | yes | `context7`, `webfetch`, `manual` |
+| `libraryId` | if context7 | Context7 library ID |
+| `url` | if webfetch | Source URL |
+| `query` | if applicable | Query used to fetch content |
+| `cached` | yes | ISO date (`YYYY-MM-DD`) of last fetch |
+
+For manually created docs, use `source: manual`:
+
+```markdown
+# Internal Auth API — Project Reference
+<!-- source: manual | cached: 2026-02-16 -->
+```
+
+## When NOT to Cache
+
+Skip local caching when:
+
+- **Rapidly evolving APIs** — bleeding-edge or pre-1.0 libraries where docs change weekly
+- **One-off lookups** — if you only need one fact, fetching is cheaper than maintaining a file
+- **Already in AGENTS.md** — if the project's agent instructions already cover the topic
+
+When in doubt, cache. Stale docs are better than no docs — the `update` command can refresh them.
 
 ## Key Design Rules
 
