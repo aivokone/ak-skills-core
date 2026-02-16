@@ -44,15 +44,21 @@ Parameters:
 
 ### Common library IDs
 
+Use `resolve-library-id` or the search endpoint to find IDs not listed here.
+
 | Technology | Library ID |
 |---|---|
-| WordPress Functions | `/websites/developer_wordpress_reference_functions` |
-| WordPress Classes | `/websites/developer_wordpress_reference_classes` |
-| ACF Pro | `/wordpress-premium/advanced-custom-fields-pro` |
-| Vite | `/vitejs/vite` |
 | React | `/websites/react_dev_reference` |
 | Next.js | `/vercel/next.js` |
+| Vue | `/vuejs/docs` |
+| Vite | `/vitejs/vite` |
+| Express | `/expressjs/express` |
+| Django | `/django/django` |
+| Flask | `/pallets/flask` |
 | Bootstrap | `/twbs/bootstrap` |
 | Tailwind CSS | `/tailwindlabs/tailwindcss` |
 | Laravel | `/laravel/docs` |
+| WordPress Functions | `/websites/developer_wordpress_reference_functions` |
+| WordPress Classes | `/websites/developer_wordpress_reference_classes` |
+| ACF Pro | `/wordpress-premium/advanced-custom-fields-pro` |
 | Roots/Sage/Bedrock | `/roots/docs` |

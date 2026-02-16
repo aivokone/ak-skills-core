@@ -85,7 +85,9 @@ looking up docs local-first (`local-ref lookup`), updating cached docs
 (`local-ref update`), and opportunistically saving fetched docs (`local-ref save`).
 
 Docs are written to `docs/reference/<topic>.md` — project-specific, 100-200 lines
-each, with cross-references to actual project files.
+each, with cross-references to actual project files. Each file includes a
+machine-readable header (`<!-- source="..." cached="..." -->`) that enables
+reliable automated updates.
 
 Source:
 
