@@ -15,11 +15,11 @@
     "prompt": "Update the local reference docs to the latest versions.",
     "expectations": [
       "Reads docs/reference/ to find existing files",
-      "Parses the <!-- source: ... --> header to determine source type and parameters (libraryId/query, url)",
+      "Parses the <!-- source=\"...\" --> header to determine source type and parameters (libraryId/query, url)",
       "Re-fetches context7 and webfetch sources using parsed parameters",
       "Skips manual sources (flags for user review if stale)",
       "Preserves project-specific annotations and cross-references",
-      "Updates the <!-- cached: ... --> date"
+      "Updates the <!-- cached=\"...\" --> date"
     ]
   },
   {

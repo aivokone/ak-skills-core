@@ -57,13 +57,13 @@ Set up local documentation cache for a project.
 Refresh existing local docs.
 
 1. Read `docs/reference/` to find existing doc files
-2. For each file, parse the `<!-- source: ... -->` header to determine source type and parameters (`libraryId`/`query` for context7, `url` for webfetch)
+2. For each file, parse the `<!-- source="..." -->` header to determine source type and parameters (`libraryId`/`query` for context7, `url` for webfetch)
 3. Re-fetch based on source type:
    - `context7` — re-fetch using `libraryId` and `query`
    - `webfetch` — re-fetch from `url`
    - `manual` — skip (flag for user review if stale)
 4. Merge new content while preserving project-specific annotations and cross-references
-5. Update the `<!-- cached: ... -->` date
+5. Update the `<!-- cached="..." -->` date
 6. Report what changed (updated, skipped manual, failed)
 
 ### Lookup — `local-ref lookup <topic>`
@@ -95,8 +95,8 @@ Every cached doc file MUST start with this machine-readable header. The `update`
 
 ```markdown
 # Vite Asset Pipeline — Project Reference
-<!-- source: context7 | libraryId: /vitejs/vite | query: build manifest plugin configuration -->
-<!-- cached: 2026-02-16 -->
+<!-- source="context7" libraryId="/vitejs/vite" query="build manifest plugin configuration" -->
+<!-- cached="2026-02-16" -->
 
 Content here...
 ```
@@ -111,11 +111,11 @@ Header fields:
 | `query` | if applicable | Query used to fetch content |
 | `cached` | yes | ISO date (`YYYY-MM-DD`) of last fetch |
 
-For manually created docs, use `source: manual`:
+For manually created docs, use `source="manual"`:
 
 ```markdown
 # Internal Auth API — Project Reference
-<!-- source: manual | cached: 2026-02-16 -->
+<!-- source="manual" cached="2026-02-16" -->
 ```
 
 ## When NOT to Cache
@@ -126,7 +126,7 @@ Skip local caching when:
 - **One-off lookups** — if you only need one fact, fetching is cheaper than maintaining a file
 - **Already in AGENTS.md** — if the project's agent instructions already cover the topic
 
-When in doubt, cache. Stale docs are better than no docs — the `update` command can refresh them.
+When in doubt, cache. Stale docs are better than no docs — `update` can refresh context7 and webfetch sources automatically (manual sources are flagged for review).
 
 ## Key Design Rules
 
