@@ -57,11 +57,14 @@ Set up local documentation cache for a project.
 Refresh existing local docs.
 
 1. Read `docs/reference/` to find existing doc files
-2. For each file, parse the `<!-- source: ... -->` header to determine the original source, library ID, and query
-3. Re-fetch using the parsed source parameters
+2. For each file, parse the `<!-- source: ... -->` header to determine source type and parameters (`libraryId`/`query` for context7, `url` for webfetch)
+3. Re-fetch based on source type:
+   - `context7` — re-fetch using `libraryId` and `query`
+   - `webfetch` — re-fetch from `url`
+   - `manual` — skip (flag for user review if stale)
 4. Merge new content while preserving project-specific annotations and cross-references
 5. Update the `<!-- cached: ... -->` date
-6. Report what changed
+6. Report what changed (updated, skipped manual, failed)
 
 ### Lookup — `local-ref lookup <topic>`
 
