@@ -1,7 +1,7 @@
 [
   {
     "name": "Check all PR feedback channels",
-    "prompt": "I have an open PR with review comments. How do I check all the feedback?",
+    "prompt": "I have an open PR with review comments. How do I check all the feedback channels?",
     "expectations": [
       "Mentions checking all three channels: conversation comments, inline comments, and reviews",
       "References the check-pr-feedback.sh script",

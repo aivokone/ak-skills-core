@@ -114,7 +114,7 @@ Fill Summary, How to test, and Notes sections.
 
 ### Feedback Channels
 
-| Channel | Who Posts Here | Format |
+| Channel | Reviewer Type | Format |
 |---------|---------------|--------|
 | Conversation | AI agents, humans | Top-level comments |
 | Inline | Review bots (CodeRabbit, Gemini, Codex, Snyk, etc.), humans | File/line threads |
