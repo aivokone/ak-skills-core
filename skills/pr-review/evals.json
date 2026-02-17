@@ -1,16 +1,16 @@
 [
   {
-    "name": "Check all PR feedback sources",
-    "prompt": "I have an open PR with feedback from multiple bots. How do I check all the feedback?",
+    "name": "Check all PR feedback channels",
+    "prompt": "I have an open PR with review comments. How do I check all the feedback?",
     "expectations": [
-      "Mentions checking all three sources: conversation comments, inline comments, and reviews",
+      "Mentions checking all three channels: conversation comments, inline comments, and reviews",
       "References the check-pr-feedback.sh script",
-      "Explains that external bots (Gemini, Codex) post inline while agent-reviewers use conversation"
+      "Explains that different reviewers may post in different channels"
     ]
   },
   {
-    "name": "Reply to inline bot comment",
-    "prompt": "Gemini left an inline comment on my PR. How do I reply to it?",
+    "name": "Reply to inline comment",
+    "prompt": "A reviewer left an inline comment on my PR. How do I reply to it?",
     "expectations": [
       "References the reply-to-inline.sh script with COMMENT_ID and MESSAGE arguments",
       "Mentions signing the reply with agent identity",
@@ -27,8 +27,8 @@
     ]
   },
   {
-    "name": "Handle duplicate feedback from multiple agents",
-    "prompt": "Both Gemini and Codex flagged the same issue in my PR. How should I handle this?",
+    "name": "Handle duplicate feedback from multiple reviewers",
+    "prompt": "Both CodeRabbit and a human reviewer flagged the same issue in my PR. How should I handle this?",
     "expectations": [
       "Fix once, report once",
       "Note all sources in the Fix Report",

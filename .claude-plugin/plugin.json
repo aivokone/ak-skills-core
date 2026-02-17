@@ -2,5 +2,5 @@
   "name": "ak-skills-core",
   "version": "1.0.0",
   "description": "General-purpose, always-on skills for agent environments",
-  "skills": ["agent-flight-recorder", "local-ref", "multi-agent-pr"]
+  "skills": ["agent-flight-recorder", "local-ref", "pr-review"]
 }
