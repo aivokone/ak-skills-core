@@ -248,7 +248,7 @@ gh api repos/$REPO/pulls/$PR/comments \
 → Check all three sources. Use `.claude/skills/pr-review/scripts/check-pr-feedback.sh`, not just `gh pr view`.
 
 **"Reviewer posted inline, should I reply inline?"**
-→ Address in code, include in Fix Report, optionally reply inline with brief ack.
+→ Yes, always. Reply inline with a brief ack so the comment can be resolved in GitHub UI. Also include in Fix Report.
 
 **"Multiple reviewers flagged same issue"**
 → Fix once, report once (note all sources), tag all reviewers.
