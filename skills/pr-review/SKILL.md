@@ -134,9 +134,20 @@ Three channels:
 2. **Inline comments** — file/line-specific feedback from any reviewer
 3. **Reviews** — approval state + optional body
 
+### Critical Evaluation of Feedback
+
+**Never trust review feedback at face value.** Before acting on any comment — whether from a human reviewer, review bot, or AI agent — critically evaluate it:
+
+1. **Verify the claim** — Read the actual code being referenced. Does the reviewer's description match reality? Reviewers (especially bots) may misread context, reference wrong lines, or describe code that doesn't exist.
+2. **Check for hallucinations** — Review bots may fabricate issues: non-existent variables, imagined type mismatches, phantom security vulnerabilities. Always confirm the issue exists before fixing it.
+3. **Assess correctness** — Even if the issue is real, the suggested fix may be wrong. Evaluate whether the suggestion would break existing behavior, introduce regressions, or conflict with project conventions.
+4. **Test before committing** — If a suggestion modifies working code, run tests before and after to confirm the change is actually an improvement.
+
+If a review comment is incorrect, respond with a clear explanation of why rather than applying a bad fix. Use WONTFIX status with reasoning in the Fix Report.
+
 ### Responding to Inline Comments
 
-1. **Address the feedback** in code
+1. **Critically evaluate the feedback** (see above), then address it in code if valid
 2. **Reply inline** to each comment (sign with agent identity):
 
 ```bash
@@ -263,7 +274,7 @@ gh api repos/$REPO/pulls/$PR/comments \
 → Use `-F in_reply_to=ID` not `--raw-field`. The `-F` flag works correctly with `gh` CLI for numeric IDs.
 
 **"Review suggestion broke working code"**
-→ Always test suggestions before committing. Some suggestions may be incorrect or context-dependent.
+→ Never trust suggestions blindly. Verify the issue exists, evaluate the fix, and test before committing. Review bots frequently hallucinate problems or suggest incorrect fixes.
 
 **"Committed before checking latest feedback"**
 → Run feedback check script immediately before declaring PR "ready" or "complete."
@@ -273,10 +284,14 @@ gh api repos/$REPO/pulls/$PR/comments \
 **Key principles:**
 
 1. Always check all three channels (conversation + inline + reviews)
-2. Any reviewer (human, bot, agent) can post in any channel
-3. One Fix Report per round
-4. Tag all reviewers explicitly
+2. **Critically evaluate every comment** — reviewers can be wrong, misread context, or hallucinate issues
+3. Any reviewer (human, bot, agent) can post in any channel
+4. One Fix Report per round
+5. Tag all reviewers explicitly
 
-**Most common mistake:**
+**Most common mistakes:**
 ❌ Only checking conversation or `gh pr view`
 ✅ Always run `.claude/skills/pr-review/scripts/check-pr-feedback.sh`
+
+❌ Blindly applying review suggestions without verifying the issue exists
+✅ Read the actual code, confirm the problem, test the fix
