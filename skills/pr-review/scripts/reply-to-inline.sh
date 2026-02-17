@@ -22,7 +22,8 @@ if [ $# -lt 2 ]; then
 fi
 
 COMMENT_ID="$1"
-MESSAGE="$2"
+shift
+MESSAGE="$*"
 
 PR=$(gh pr view --json number -q .number 2>/dev/null || echo "")
 if [ -z "$PR" ]; then
@@ -37,9 +38,12 @@ if [ -z "$PR" ]; then
   exit 1
 fi
 
-REPO=$(gh pr view "$PR" --json headRepository,headRepositoryOwner \
-  -q '.headRepositoryOwner.login + "/" + .headRepository.name' 2>/dev/null \
-  || gh repo view --json nameWithOwner -q .nameWithOwner)
+# Use PR URL to derive the base repo (not head repo — fork PRs would break)
+REPO=$(gh pr view "$PR" --json url -q '.url' 2>/dev/null \
+  | sed 's|https://github.com/||;s|/pull/.*||')
+if [ -z "$REPO" ]; then
+  REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)
+fi
 
 echo "Replying to comment $COMMENT_ID on PR #$PR..."
 

@@ -1,10 +1,7 @@
 ---
 name: agent-flight-recorder
 version: "2.5"
-description: >
-  Flight recorder for agent work sessions. Always on. Recorder-only: logs only
-  deviations from the expected path as append-only entries. One run per file.
-  No analysis, no developer guidance.
+description: Always-on flight recorder for agent runs. Recorder-only — does not change task execution, only records. Log append-only YAML entries only when the run deviates (retry, detour, workaround, blocker, missing context, quality rework). Buffer entries and flush at end/abort, before a blocking clarification, on major context switch, or after high severity. One run per file, no file if zero entries. Never mention logging mid-task. At end, output exactly one line only if entries exist. No analysis, no guidance, no recommendations.
 ---
 
 # Agent Flight Recorder
