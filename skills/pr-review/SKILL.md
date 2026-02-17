@@ -147,7 +147,7 @@ Three channels:
 
 ## Fix Reporting
 
-After addressing feedback, post ONE conversation comment:
+After addressing feedback, **always** post ONE conversation comment (Fix Report). This is separate from requesting re-review — the Fix Report documents what was done, even if no re-review is needed.
 
 ```markdown
 ### Fix Report
@@ -156,9 +156,9 @@ After addressing feedback, post ONE conversation comment:
 - [file.ext:L42 fn]: WONTFIX — reason: intentional per AGENTS.md
 - [file.ext:L100 class]: DEFERRED — tracking: #123
 - [file.ext:L200 method]: QUESTION — Should this handle X?
-
-@reviewer-username please re-review.
 ```
+
+Optionally, if re-review is needed, add: `@reviewer-username please re-review.`
 
 ### Fix Statuses
 
