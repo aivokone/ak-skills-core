@@ -13,7 +13,7 @@ Systematic workflow for checking, responding to, and reporting on PR feedback fr
 
 ## Quick Commands
 
-**Note:** Run scripts from repository root, not from `.claude/skills/` directory.
+**Note:** Run scripts from repository root. Paths below assume installation via `npx skills add`. If the skill is installed elsewhere, adjust the `.claude/skills/pr-review/` prefix accordingly.
 
 ### Check All Feedback (CRITICAL - Use First)
 
@@ -21,7 +21,7 @@ Systematic workflow for checking, responding to, and reporting on PR feedback fr
 .claude/skills/pr-review/scripts/check-pr-feedback.sh [PR_NUMBER]
 ```
 
-Checks all three sources: conversation comments, inline comments, reviews.
+Checks all three channels: conversation comments, inline comments, reviews.
 
 If no PR number provided, detects current PR from branch.
 
@@ -245,7 +245,7 @@ gh api repos/$REPO/pulls/$PR/comments \
 ## Troubleshooting
 
 **"Can't find review comments"**
-→ Check all three sources. Use `.claude/skills/pr-review/scripts/check-pr-feedback.sh`, not just `gh pr view`.
+→ Check all three channels. Use `.claude/skills/pr-review/scripts/check-pr-feedback.sh`, not just `gh pr view`.
 
 **"Reviewer posted inline, should I reply inline?"**
 → Yes, always. Reply inline with a brief ack so the comment can be resolved in GitHub UI. Also include in Fix Report.

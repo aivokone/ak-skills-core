@@ -1,6 +1,6 @@
 ---
 name: local-ref
-description: Maintain project-local reference documentation cached from Context7 and other sources. Use when (1) initializing local docs for a new project, (2) updating or expanding existing reference docs, (3) looking up library documentation — check local cache first, (4) saving useful externally fetched docs for future sessions.
+description: Local docs cache for the project. Always check docs/reference/ before fetching externally. Use for init (set up cache), update (refresh docs), lookup (local-first search), and save (persist fetched docs). If external docs are fetched (Context7/web), save a tailored topic file to docs/reference/ and add a verbal pointer in AGENTS.md.
 ---
 
 # Local Reference

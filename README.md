@@ -112,7 +112,7 @@ feedback from any source — human reviewers, review bots (CodeRabbit, Gemini,
 Codex, Snyk, etc.), or AI agents. Ensures all three feedback channels
 (conversation, inline, reviews) are checked so no feedback is missed.
 
-Includes helper scripts:
+Includes helper scripts (relative to skill directory):
 
 - `scripts/check-pr-feedback.sh` — check all three feedback channels for a PR
 - `scripts/reply-to-inline.sh` — reply in-thread to inline comments

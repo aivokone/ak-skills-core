@@ -28,9 +28,12 @@ if [ -z "$PR" ]; then
   exit 1
 fi
 
-REPO=$(gh pr view "$PR" --json headRepository,headRepositoryOwner \
-  -q '.headRepositoryOwner.login + "/" + .headRepository.name' 2>/dev/null \
-  || gh repo view --json nameWithOwner -q .nameWithOwner)
+# Derive base repo from PR URL (not head repo — fork PRs would break)
+# Uses jq to extract owner/repo, works on github.com and GitHub Enterprise
+REPO=$(gh pr view "$PR" --json url -q '.url | split("/pull/")[0] | split("/") | .[-2:] | join("/")' 2>/dev/null)
+if [ -z "$REPO" ]; then
+  REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)
+fi
 
 echo "Checking PR #$PR in $REPO"
 echo ""
