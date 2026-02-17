@@ -1,8 +1,8 @@
 # Fix Report Examples
 
-Real-world examples of Fix Reports from multi-agent code review scenarios.
+Real-world examples of Fix Reports from code review scenarios with multiple reviewers.
 
-## Example 1: Mixed Sources (Gemini inline + agent-reviewer conversation)
+## Example 1: Mixed Channels (inline + conversation)
 
 ```markdown
 ### Fix Report
@@ -36,12 +36,12 @@ Real-world examples of Fix Reports from multi-agent code review scenarios.
 @github-advanced-security @agent-reviewer please re-review.
 ```
 
-## Example 3: Duplicate Feedback from Multiple Agents
+## Example 3: Duplicate Feedback from Multiple Reviewers
 
 ```markdown
 ### Fix Report
 
-**Addressed duplicate feedback (ALL agents flagged):**
+**Addressed duplicate feedback (ALL reviewers flagged):**
 - utils.js:L42 (use const instead of let): FIXED @ xyz789 — verified: `npm run lint` passes
   - Gemini: "prefer const for immutable bindings"
   - Codex: "const improves code clarity"

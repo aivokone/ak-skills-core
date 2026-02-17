@@ -1,15 +1,15 @@
 ---
-name: multi-agent-pr
-description: Multi-agent PR and code review workflow for projects using multiple AI assistants (Claude, GitHub Copilot/Codex, Gemini Code Assist). Use when working with pull requests, code reviews, commits, or addressing review feedback. Teaches how to check all feedback sources (conversation, inline, reviews), respond to inline bot comments, create Fix Reports, and coordinate between agents that use different comment formats. Critical for ensuring no feedback is missed from external review bots.
+name: pr-review
+description: Use FIRST for any PR/code review work — checking feedback, reading CR comments, responding to reviewers, addressing review bot or human comments, or preparing commits on a PR. Collects feedback from ALL sources (conversation, inline, reviews) to prevent the common failure of missing inline feedback. Start with check-pr-feedback.sh, then reply inline where needed and summarize with one Fix Report.
 ---
 
-# Multi-Agent PR & Code Review Workflow
+# PR Review Workflow
 
-Handle pull requests and code reviews in projects with multiple AI review assistants.
+Systematic workflow for checking, responding to, and reporting on PR feedback from any source — human reviewers, review bots (CodeRabbit, Gemini, Codex, Snyk, etc.), or AI agents.
 
 **Requirements:** GitHub repository with [GitHub CLI (`gh`)](https://cli.github.com/) installed and authenticated.
 
-**Key insight:** Review bots (Gemini, Codex) don't read skills and post inline comments. This skill teaches implementers how to check ALL feedback sources and respond systematically.
+**Key insight:** PR feedback arrives through three different channels (conversation comments, inline threads, review submissions). Missing any channel means missing feedback. This skill ensures all channels are checked systematically.
 
 ## Quick Commands
 
@@ -18,7 +18,7 @@ Handle pull requests and code reviews in projects with multiple AI review assist
 ### Check All Feedback (CRITICAL - Use First)
 
 ```bash
-.claude/skills/multi-agent-pr/scripts/check-pr-feedback.sh [PR_NUMBER]
+.claude/skills/pr-review/scripts/check-pr-feedback.sh [PR_NUMBER]
 ```
 
 Checks all three sources: conversation comments, inline comments, reviews.
@@ -28,10 +28,10 @@ If no PR number provided, detects current PR from branch.
 ### Reply to Inline Comment
 
 ```bash
-.claude/skills/multi-agent-pr/scripts/reply-to-inline.sh <COMMENT_ID> "Your message"
+.claude/skills/pr-review/scripts/reply-to-inline.sh <COMMENT_ID> "Your message"
 ```
 
-Replies in-thread to inline bot comments. Uses `-F` flag (not `--raw-field`) which properly handles numeric ID conversion in `gh` CLI.
+Replies in-thread to inline comments. Uses `-F` flag (not `--raw-field`) which properly handles numeric ID conversion in `gh` CLI.
 
 **Must be run from repository root** with an active PR branch.
 
@@ -81,7 +81,7 @@ Example check:
 npm test  # or: pytest, go test, etc.
 
 # 2. Check for new feedback since last check
-.claude/skills/multi-agent-pr/scripts/check-pr-feedback.sh
+.claude/skills/pr-review/scripts/check-pr-feedback.sh
 # (prevents "ready to merge" when new comments exist)
 
 # 3. If user active: "Ready to commit these changes?"
@@ -101,7 +101,7 @@ Create `.github/pull_request_template.md`:
 -
 
 ## Notes
-- Agent review loop: PR Conversation comments only (for agent-reviewers). External bots may use inline comments. See workflow docs.
+- Review feedback may arrive in conversation comments, inline threads, or review submissions. Check all channels.
 ```
 
 Or copy from `assets/pr_template.md`.
@@ -112,42 +112,42 @@ Fill Summary, How to test, and Notes sections.
 
 ## Code Review Coordination
 
-### Agent Roles
+### Feedback Channels
 
-| Agent Type | Posts Where | Format |
-|------------|-------------|--------|
-| Agent-reviewers (Claude, GPT-4, custom) | Conversation | Top-level comments |
-| External review bots (Gemini, Codex) | Inline | File/line threads |
-| Human reviewers | Mixed | Conversation or inline |
+| Channel | Reviewer Type | Format |
+|---------|---------------|--------|
+| Conversation | AI agents, humans | Top-level comments |
+| Inline | Review bots (CodeRabbit, Gemini, Codex, Snyk, etc.), humans | File/line threads |
+| Reviews | Humans, some bots | Approve/Request Changes + optional body |
 
-### Critical Rule: Check ALL Three Sources
+### Critical Rule: Check ALL Three Channels
 
 ```bash
-.claude/skills/multi-agent-pr/scripts/check-pr-feedback.sh
+.claude/skills/pr-review/scripts/check-pr-feedback.sh
 ```
 
-**Why:** External bots post inline comments even though agent-reviewers use conversation. Missing any source = missing feedback.
+**Why:** Different reviewers post in different channels. Missing any channel = missing feedback.
 
-Three sources:
+Three channels:
 
-1. **Conversation comments** - Agent-reviewers post here
-2. **Inline comments** - Gemini, Codex, security bots post here
-3. **Reviews** - State + optional body
+1. **Conversation comments** — general discussion, agent reviews
+2. **Inline comments** — file/line-specific feedback from any reviewer
+3. **Reviews** — approval state + optional body
 
-### Responding to Inline Bot Comments
+### Responding to Inline Comments
 
 1. **Address the feedback** in code
 2. **Reply inline** to each comment (sign with agent identity):
 
 ```bash
-.claude/skills/multi-agent-pr/scripts/reply-to-inline.sh <COMMENT_ID> "Fixed @ abc123. [details] —[Your Agent Name]"
+.claude/skills/pr-review/scripts/reply-to-inline.sh <COMMENT_ID> "Fixed @ abc123. [details] —[Your Agent Name]"
 ```
 
-3. **Include in Fix Report** (conversation comment) — the Fix Report summarizes all changes, but inline replies ensure each bot comment gets a direct acknowledgment
+3. **Include in Fix Report** (conversation comment) — the Fix Report summarizes all changes, but inline replies ensure each comment gets a direct acknowledgment
 
 ## Fix Reporting
 
-After addressing feedback, post ONE conversation comment:
+After addressing feedback, **always** post ONE conversation comment (Fix Report). This is separate from requesting re-review — the Fix Report documents what was done, even if no re-review is needed.
 
 ```markdown
 ### Fix Report
@@ -156,9 +156,9 @@ After addressing feedback, post ONE conversation comment:
 - [file.ext:L42 fn]: WONTFIX — reason: intentional per AGENTS.md
 - [file.ext:L100 class]: DEFERRED — tracking: #123
 - [file.ext:L200 method]: QUESTION — Should this handle X?
-
-@reviewer-username please re-review.
 ```
+
+Optionally, if re-review is needed, add: `@reviewer-username please re-review.`
 
 ### Fix Statuses
 
@@ -211,11 +211,11 @@ After Fix Report:
 3. **If QUESTION items**: Wait for clarification
 4. **If blocking feedback was only provided inline**: Mention it was addressed, optionally ask to mirror to conversation for future determinism
 
-## Multi-Agent Patterns
+## Multi-Reviewer Patterns
 
 ### Duplicate Feedback
 
-If multiple agents flag same issue:
+If multiple reviewers flag the same issue:
 
 ```markdown
 - [file.php:L42 (ALL flagged)]: FIXED @ abc123 — verified: `npm test` passes
@@ -230,27 +230,27 @@ If multiple agents flag same issue:
 - [file.php:L100]: QUESTION — Gemini suggests pattern A, Codex suggests pattern B. Which aligns with project conventions? See AGENTS.md.
 ```
 
-### Finding Specific Bot Comments
+### Finding Comments by Reviewer
 
 ```bash
 # Set REPO and PR for your context
 REPO="owner/repo"  # or: gh repo view --json nameWithOwner -q .nameWithOwner
 PR=42               # or: gh pr view --json number -q .number
 
-# Find Gemini comment about "JavaScript"
+# Find comments by a specific reviewer (e.g., CodeRabbit, Gemini)
 gh api repos/$REPO/pulls/$PR/comments \
-  --jq '.[] | select(.user.login == "gemini-code-assist[bot]" and (.body | contains("JavaScript"))) | {id, line, path}'
+  --jq '.[] | select(.user.login | contains("coderabbitai")) | {id, line, path, body}'
 ```
 
 ## Troubleshooting
 
 **"Can't find review comments"**
-→ Check all three sources. Use `.claude/skills/multi-agent-pr/scripts/check-pr-feedback.sh`, not just `gh pr view`.
+→ Check all three sources. Use `.claude/skills/pr-review/scripts/check-pr-feedback.sh`, not just `gh pr view`.
 
-**"Bot posted inline, should I reply inline?"**
-→ Address in code, include in Fix Report, optionally reply inline with brief ack.
+**"Reviewer posted inline, should I reply inline?"**
+→ Yes, always. Reply inline with a brief ack so the comment can be resolved in GitHub UI. Also include in Fix Report.
 
-**"Multiple agents flagged same issue"**
+**"Multiple reviewers flagged same issue"**
 → Fix once, report once (note all sources), tag all reviewers.
 
 **"Conflicting suggestions"**
@@ -262,8 +262,8 @@ gh api repos/$REPO/pulls/$PR/comments \
 **"Reply script fails with HTTP 422"**
 → Use `-F in_reply_to=ID` not `--raw-field`. The `-F` flag works correctly with `gh` CLI for numeric IDs.
 
-**"Bot suggestion broke working code"**
-→ Always test suggestions before committing. Some bot suggestions may be incorrect or context-dependent.
+**"Review suggestion broke working code"**
+→ Always test suggestions before committing. Some suggestions may be incorrect or context-dependent.
 
 **"Committed before checking latest feedback"**
 → Run feedback check script immediately before declaring PR "ready" or "complete."
@@ -272,12 +272,11 @@ gh api repos/$REPO/pulls/$PR/comments \
 
 **Key principles:**
 
-1. Always check all three sources (conversation + inline + reviews)
-2. Agent-reviewers use conversation only
-3. External bots use inline (expected)
-4. One Fix Report per round
-5. Tag all reviewers explicitly
+1. Always check all three channels (conversation + inline + reviews)
+2. Any reviewer (human, bot, agent) can post in any channel
+3. One Fix Report per round
+4. Tag all reviewers explicitly
 
 **Most common mistake:**
 ❌ Only checking conversation or `gh pr view`
-✅ Always run `.claude/skills/multi-agent-pr/scripts/check-pr-feedback.sh`
+✅ Always run `.claude/skills/pr-review/scripts/check-pr-feedback.sh`

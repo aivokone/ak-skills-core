@@ -24,7 +24,7 @@ The table below is the canonical skills index for this repository.
 |------|------|-------------|
 | [Agent Flight Recorder](skills/agent-flight-recorder/) | `agent-flight-recorder` | Recorder-only flight log for agent runs: logs deviations to per-run files |
 | [Local Reference](skills/local-ref/) | `local-ref` | Cache library docs locally so every session reads from disk instead of re-fetching |
-| [Multi-Agent PR](skills/multi-agent-pr/) | `multi-agent-pr` | Multi-agent PR and code review workflow for projects with multiple AI review assistants |
+| [PR Review](skills/pr-review/) | `pr-review` | Systematic PR review workflow — check all feedback channels, respond, and report |
 
 ## Skill Catalog
 
@@ -105,34 +105,50 @@ Install globally:
 npx skills add aivokone/ak-skills-core --skill local-ref -g
 ```
 
-### Multi-Agent PR (`multi-agent-pr`)
+### PR Review (`pr-review`)
 
-PR and code review workflow for projects using multiple AI review assistants
-(Claude, GitHub Copilot/Codex, Gemini Code Assist). Teaches agents how to check
-all feedback sources (conversation, inline, reviews), create Fix Reports, reply
-to inline bot comments, and coordinate between agents that use different comment
-formats.
+Systematic PR review workflow for checking, responding to, and reporting on
+feedback from any source — human reviewers, review bots (CodeRabbit, Gemini,
+Codex, Snyk, etc.), or AI agents. Ensures all three feedback channels
+(conversation, inline, reviews) are checked so no feedback is missed.
 
 Includes helper scripts:
 
-- `scripts/check-pr-feedback.sh` — check all three feedback sources for a PR
-- `scripts/reply-to-inline.sh` — reply in-thread to inline bot comments
+- `scripts/check-pr-feedback.sh` — check all three feedback channels for a PR
+- `scripts/reply-to-inline.sh` — reply in-thread to inline comments
 
 Source:
 
-- `skills/multi-agent-pr/SKILL.md`
+- `skills/pr-review/SKILL.md`
 
 Install to project scope:
 
 ```bash
-npx skills add aivokone/ak-skills-core --skill multi-agent-pr
+npx skills add aivokone/ak-skills-core --skill pr-review
 ```
 
 Install globally:
 
 ```bash
-npx skills add aivokone/ak-skills-core --skill multi-agent-pr -g
+npx skills add aivokone/ak-skills-core --skill pr-review -g
 ```
+
+### Project instruction snippet
+
+If you want to enforce usage in a specific project, add a short note to the
+project's agent instruction file (for example `AGENTS.md`, `CLAUDE.md`, or
+similar).
+
+```md
+### PR Review Workflow (`pr-review`)
+
+- When checking PR feedback, reviewing code review comments, or responding to reviews, always use the `pr-review` skill first.
+- This ensures all three feedback channels are checked (conversation, inline, reviews) and no feedback is missed.
+```
+
+This keeps the trigger explicit at the project level and prevents agents from
+overlooking the skill when asked to "check the CR", "look at PR feedback", or
+similar review-oriented requests.
 
 ## Contributing / Adding Skills
 

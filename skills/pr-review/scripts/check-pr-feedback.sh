@@ -36,7 +36,7 @@ echo "Checking PR #$PR in $REPO"
 echo ""
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📝 CONVERSATION COMMENTS (agent-reviewers)"
+echo "📝 CONVERSATION COMMENTS"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 COMMENTS=$(gh api --paginate "repos/$REPO/issues/$PR/comments" \
   --jq '.[] | "[\(.id)] [\(.user.login)] \(.created_at | split("T")[0])\n\(.body)\n---"')
@@ -48,7 +48,7 @@ fi
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "💬 INLINE COMMENTS (bots like Gemini/Codex)"
+echo "💬 INLINE COMMENTS"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 INLINE=$(gh api --paginate "repos/$REPO/pulls/$PR/comments" \
   --jq '.[] | "[\(.id)] \(.path):\(.line // .original_line) [\(.user.login)]\n\(.body)\n---"')
